@@ -1,0 +1,183 @@
+#bodyedit {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background-image: url('/backgrounds/background1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0px;
+}
+
+#bodyreg {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background-image: url('/backgrounds/background1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0px;
+}
+
+#rootreg{
+display: flex;
+flex-direction: column;
+}
+
+#rootedit{
+    display: flex;
+    flex-direction: column;
+    }
+
+#inputfield{
+    margin-top: 22px;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #c4c4c4;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 900px;
+}
+
+#registertext{
+    background: linear-gradient(to right, #ff0054, #000000,#00c3ff);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 190px;
+    margin-left: 255px;
+    padding: 8px;
+    width: 500px;
+    text-align: center;
+    color: #FFD700;
+}
+
+#registerbenefit{
+    background: linear-gradient(to right, #ff0054, #000000,#00c3ff);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 0;
+    padding: 8px;
+    width: 500px;
+    margin-left: 255px;
+    text-align: center;
+    color: #FFD700;
+}
+
+#registerthank{
+    background: linear-gradient(to right, #ff0054, #000000,#00c3ff);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 0;
+    padding: 8px;
+    width: 250px;
+    text-align: center;
+    margin-left: 370px;
+    color: #FFD700;
+}
+
+#user-list-container{
+    gap:55px;
+    text-align: center;
+}
+
+.usercontainer{
+    margin-left: 330px;
+    background: linear-gradient(to right, #ff0054, #000000,#00c3ff);
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    border: 2px solid black;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    width: fit-content;
+    color: #FFD700;
+}
+
+#buttondiv{
+    display: flex;
+    flex-direction: row;
+    margin-top: 22px;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+
+button{
+    margin: 5px;
+    cursor: pointer;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, scale 0.3s;
+    user-select: none;
+}
+
+#backtoshop{
+    margin: 15px;
+    cursor: pointer;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, scale 0.3s;
+    user-select: none;
+    width: fit-content;
+}
+
+button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    scale: 1.1;
+}
+
+h1, h2, h3, h4 {
+    letter-spacing: 2px;
+}
+
+p{
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: large;
+}
+
+#new-user{
+    background: linear-gradient(to right, #00c3ff, #000000, #ff0054);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 4px solid black;
+    border-radius: 12px;
+    padding: 8px;
+    margin-top: 0;
+    width: 400px;
+}
+
+#username{
+    margin-bottom: 6px;
+    color: #FFD700;
+}
+#useremail{
+    margin-bottom: 6px;
+    color: #FFD700;
+}
+#usershipping{
+    margin-bottom: 6px;
+    color: #FFD700;
+}

@@ -4,7 +4,6 @@ import url from 'url';
 import { readFile, writeFile } from 'fs/promises';
 
 
-
 const _filename = url.fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
@@ -16,7 +15,6 @@ app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 });
 
-const data = await readFile('/data')
 const getUsersData = async () => {
     try{
         const data = await readFile('userdata.json', 'utf-8');
@@ -27,7 +25,7 @@ const getUsersData = async () => {
         console.error('Error reading JSON file:', error.message);
     }
 }
-    
+
 async function writeUsersData(data) {
     await writeFile('userdata.json', JSON.stringify({users: data}), 'utf-8');
 }
@@ -57,16 +55,12 @@ app.post('/api/users', async (req, res) => {
     }
 });
 
-app.get('/edit/users', (req, res)=>{
-    res.sendFile(path.join(_dirname,"../client/database.html"));
+app.get('/register', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/register.html"));
 });
 
-app.get('/products', (req, res)=>{
-    res.sendFile(path.join(_dirname,"/pictures/back_to_the_future.jpg"))
-});
-
-app.get('/edit/users/:id', (req, res)=>{
-    res.sendFile(path.join(_dirname,"../client/personal.html"));
+app.get('/register/:id', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/edituser.html"));
 });
 
 app.put('/api/users/:id', async (req, res) => {
