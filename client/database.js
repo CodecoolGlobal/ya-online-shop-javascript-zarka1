@@ -130,8 +130,10 @@ const getNewUser = () =>{
     })
 }
 
-function loadEvent() {
-    fetchData();
+async function loadEvent() {
+    const picture = await fetch('http://localhost:8080/pictures/back_to_the_future.webp');
+    console.log(picture);
+    /*     fetchData();
     getNewUser();
 
     const putBtn = document.getElementById('put-btn');
@@ -192,7 +194,7 @@ function loadEvent() {
         } catch (error) {
             console.error(error.message);
         }
-    });
+    }); */
 }
 
 window.addEventListener('load', loadEvent);
