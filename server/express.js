@@ -15,6 +15,7 @@ app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 });
 
+const data = await readFile('/data')
 const getUsersData = async () => {
     try{
         const data = await readFile('userdata.json', 'utf-8');

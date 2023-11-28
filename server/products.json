@@ -1,3 +1,72 @@
 {"products":[
-    
+    {
+        "id": 1,
+        "name": "Back to the Future",
+        "price": 25.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["50x80cm"]
+    },
+    {
+        "id": 2,
+        "name": "Jaws",
+        "price": 30.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["50x80cm"]
+    },
+    {
+        "id": 3,
+        "name": "Jurassic-Park",
+        "price": 25.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["50x80cm"]
+    },
+    {
+        "id": 4,
+        "name": "Pulp Fiction",
+        "price": 60.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["100x160cm"]
+    },
+    {
+        "id": 5,
+        "name": "Star Wars",
+        "price": 70,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["100x160cm"]
+    },
+    {
+        "id": 6,
+        "name": "Teenage Mutant Ninja Turtles",
+        "price": 65.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["100x160cm"]
+    },
+    {
+        "id": 7,
+        "name": "Titanic",
+        "price": 20.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["30x50cm"]
+    },
+    {
+        "id": 8,
+        "name": "Back to the Future",
+        "price": 15.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["30x50cm"]
+    },
+    {
+        "id": 9,
+        "name": "Back to the Future",
+        "price": 20.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["30x50cm"]
+    },
+    {
+        "id": 10,
+        "name": "Back to the Future",
+        "price": 35.00,
+        "image": "/server/pictures/back_to_the_future.jpg",
+        "size" : ["50x80cm"]
+    }
 ]}
