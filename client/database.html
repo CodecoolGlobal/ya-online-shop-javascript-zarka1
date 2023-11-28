@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Database</title>
+    <script src="/database.js" defer></script>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="root">
+        <div id="user-list-container">
+            <h2 id="registeredusers">Registered Users</h2>
+        </div>
+        <div id="inputfield">
+            <form id="new-user">
+                <h1 id="username">Name</h1>
+                <input type="text" placeholder="First name" id="input-first">
+                <input type="text" placeholder="Middle name" id="input-middle">
+                <input type="text" placeholder="Last name" id="input-last">
+                <h3 id="useremail">Email</h3>
+                <input type="text" placeholder="Email adress" id="input-email">
+                <h3 id="usershipping">Shipping</h3>
+                <input type="text" placeholder="Country" id="input-country">
+                <input type="number" placeholder="Zipcode" id="input-zip">
+                <input type="text" placeholder="City" id="input-city">
+                <input type="text" placeholder="Adress" id="input-adress">
+                <h3 id="userinvoice">Invoice</h3>
+                <input type="text" placeholder="Country" id="input-incountry">
+                <input type="number" placeholder="Zipcode" id="input-inzip">
+                <input type="text" placeholder="City" id="input-incity">
+                <input type="text" placeholder="Adress" id="input-inadress">
+                <div id="buttondiv">
+                    <button type="submit" id="post-btn">REGISTER</button>
+                </div>
+                </form>
+        </div>
+    </div>    
+</body>
+</html>
