@@ -4,6 +4,7 @@ import url from 'url';
 import { readFile, writeFile } from 'fs/promises';
 
 
+
 const _filename = url.fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
@@ -58,6 +59,10 @@ app.post('/api/users', async (req, res) => {
 
 app.get('/edit/users', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/database.html"));
+});
+
+app.get('/products', (req, res)=>{
+    res.sendFile(path.join(_dirname,"/pictures/back_to_the_future.jpg"))
 });
 
 app.get('/edit/users/:id', (req, res)=>{
