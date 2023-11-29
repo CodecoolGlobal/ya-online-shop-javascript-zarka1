@@ -94,8 +94,7 @@ async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
     const pictures = await data.json();
     fetchProducts();
-    displayUsername()
-
+    displayUsername();
 }
 
 window.addEventListener('load', loadEvent);

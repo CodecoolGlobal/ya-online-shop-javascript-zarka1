@@ -56,9 +56,15 @@ flex-direction: column;
 }
 
 #shoppingcart{
+    display: flex;
     position: fixed;
-    top: 100px;
-    right: 0;
+    top: 22px;
+    right: 22px;
+    border: 4px solid black;
+    border-radius: 12px;
+    padding: 8px;
+    top: 122px;
+    right: 22px;
 }
 
 #registertext{
