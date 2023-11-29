@@ -4,19 +4,16 @@ import url from 'url';
 import { readFile, writeFile } from 'fs/promises';
 
 
-
 const _filename = url.fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(_dirname, '../client')));
-/* app.use(express.static(path.join(_dirname, '../client/pictures'))); */
 
 app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 });
-
 
 const getUsersData = async () => {
     try{
@@ -28,7 +25,7 @@ const getUsersData = async () => {
         console.error('Error reading JSON file:', error.message);
     }
 }
-    
+
 async function writeUsersData(data) {
     await writeFile('userdata.json', JSON.stringify({users: data}), 'utf-8');
 }
@@ -60,6 +57,14 @@ app.post('/api/users', async (req, res) => {
 
 app.get('/', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/database.html"));
+});
+
+app.get('/register', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/register.html"));
+});
+
+app.get('/register/:id', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/edituser.html"));
 });
 
 app.get('/products', async (req, res)=>{

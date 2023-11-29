@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>User Database</title>
-    <script src="/personal.js" defer></script>
+    <script src="/register.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-    <div id="root">
-        <div id="user-list-container">
-            <h2 id="userinformation">User Information</h2>
-        </div>
+<body id="bodyreg">
+    <div id="rootreg">
+            <h2 id="registertext">Hey there! 🌟 Before you dive into the shopping spree, we'd love to make your experience even better. Please take a moment to create an account.</h2>
+            <h2 id="registerbenefit"> It unlocks a world of perks, exclusive deals, and personalized magic just for you.</h2>
+            <h2 id="registerthank"> Thank You!</h2>
         <div id="inputfield">
+            <h1 id="createnewtext"> Create New Accaunt:</h1>
             <form id="new-user">
                 <h1 id="username">Name</h1>
                 <input type="text" placeholder="First name" id="input-first">
@@ -24,15 +25,8 @@
                 <input type="number" placeholder="Zipcode" id="input-zip">
                 <input type="text" placeholder="City" id="input-city">
                 <input type="text" placeholder="Adress" id="input-adress">
-                <h3 id="userinvoice">Invoice</h3>
-                <input type="text" placeholder="Country" id="input-incountry">
-                <input type="number" placeholder="Zipcode" id="input-inzip">
-                <input type="text" placeholder="City" id="input-incity">
-                <input type="text" placeholder="Adress" id="input-inadress">
                 <div id="buttondiv">
-                    <button type="button" id="put-btn">REPLACE</button>
-                    <button type="button" id="patch-btn">EDIT</button>
-                    <button type="button" id="delete-btn">DELETE</button>
+                    <button type="submit" id="post-btn">REGISTER</button>
                 </div>
                 </form>
         </div>
