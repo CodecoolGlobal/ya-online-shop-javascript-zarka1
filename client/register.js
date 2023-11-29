@@ -17,13 +17,14 @@ function getUserIdFromUrl() {
 }
 
 const postUser = async (user) =>{
-    await fetch('/api/users', {
+    const newUser = await fetch('/api/users', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
         body: JSON.stringify(user)
     });
+    return newUser;
 }
 
 const getNewUser = () =>{
@@ -63,10 +64,13 @@ const getNewUser = () =>{
                 address: adress,
                 },
             }
-        await postUser(newUser);
-        window.alert('Your Accaunt succesfully created!')
+            const response = await postUser(newUser);
+            const data = await response.json();
+            console.log(data.id)
+       /*  await postUser(newUser); */
+        window.alert(`Your Accaunt succesfully created! Your new ID is: ${data.id}`)
         localStorage.setItem('currentUser', JSON.stringify(newUser));
-        window.location.href = '/products'; //! VISSZA A FŐOLDALRA
+        window.location.href = '/';
         }
         catch(error){
             console.error(error.message);

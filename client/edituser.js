@@ -85,7 +85,7 @@ function loadEvent() {
 
     const backButton = document.getElementById('backtoshop');
     backButton.addEventListener('click', async ()=>{
-        window.location.href = '/products'; //!VISSZA A FŐ OLDALRA
+        window.location.href = '/';
     })
 
     const deleteBtn = document.getElementById('delete-btn');

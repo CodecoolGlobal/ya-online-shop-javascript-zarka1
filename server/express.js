@@ -49,7 +49,9 @@ app.post('/api/users', async (req, res) => {
         newUser.id = existingUsersData[existingUsersData.length -1].id + 1 || 0;
         existingUsersData.push(newUser);
         await writeUsersData(existingUsersData);
-        res.json(newUser);
+        /* res.json(newUser); */
+        res.send(newUser);
+        console.log(newUser)
     } catch (error) {
         console.error('Error handling POST request:', error.message);
     }
