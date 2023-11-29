@@ -85,7 +85,25 @@ function loadEvent() {
 
     const backButton = document.getElementById('backtoshop');
     backButton.addEventListener('click', async ()=>{
-        window.location.href = '/'; //!VISSZA A FŐ OLDALRA
+        const idFromUserDiv = document.getElementById('id');
+        console.log(idFromUserDiv.textContent.split(' ')[1]);
+        const updatedFields = {
+            id: idFromUserDiv.textContent.split(' ')[1],
+            name: {
+                first: document.getElementById('input-first').value,
+                middle: document.getElementById('input-middle').value,
+                last: document.getElementById('input-last').value,
+            },
+            email: document.getElementById('input-email').value,
+            shipping: {
+                country: document.getElementById('input-country').value,
+                zip: document.getElementById('input-zip').value,
+                city: document.getElementById('input-city').value,
+                address: document.getElementById('input-adress').value,
+            },
+        };
+        localStorage.setItem('currentUser', JSON.stringify(updatedFields));
+        window.location.href = '/';
     })
 
     const deleteBtn = document.getElementById('delete-btn');
