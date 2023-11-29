@@ -118,9 +118,10 @@ async function loadEvent() {
         /* console.log(shoppingBasket); */
         for (const key in shoppingBasket) {
             for (const product of products) {
-                if (product.id === Number(key)) {
-                    createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
-                    createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, shoppingCart);
+                if (product.id === Number(key)){
+                const productDiv = createMyElement('div', 'cartcontainer', `prodcont${product.id}`, '', shoppingCart)
+                    createMyElement('p', 'pProduct', `p1${product.id}`, product.title, productDiv);
+                    createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]} pcs`, productDiv);
                     console.log(product.price)
                     totalPrice += shoppingBasket[key] * product.price;
                 }
