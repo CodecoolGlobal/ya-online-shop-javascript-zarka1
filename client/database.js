@@ -1,4 +1,7 @@
 const rootElement = document.getElementById('root');
+let shoppingBasket = {};
+let products = [];
+
 
 function createMyElement(type, elementClass, id, content, parent){
     const element = document.createElement(type);
@@ -46,6 +49,7 @@ const createProductDiv = async (product) =>{
     createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
     createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
     createMyElement('p', 'productprice', 'price', `Price: ${product.price}`, productDiv);
+    createMyElement('button', 'buttonProduct', `button${product.id}`, 'Add to basket', productDiv);
     const pictureHTML = `<img src="/pictures/${product.image}"/>`
     const productDivHTML = document.getElementById(product.id.toString());
     productDivHTML.insertAdjacentHTML('beforeend', pictureHTML);
@@ -60,144 +64,48 @@ const fetchProducts = async () =>{
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
         const data = await response.json();
+        products = data.products;
         data.products.map((product)=> createProductDiv(product));
         document.getElementById('product-list-container');
-/*         productElements.forEach((productElement) => {
-            productListContainer.insertAdjacentHTML('beforeend', productElement);
-        }); */
-
     }
     catch(error){
     console.error(error.message);
     }
 }
 
-/* const getNewUser = () =>{
-    const form = document.getElementById('new-user');
-    form.addEventListener('submit', async (event)=>{
-        try{
-        event.preventDefault();
-        const firstNameInput = document.getElementById('input-first');
-        const middleNameInput = document.getElementById('input-middle');
-        const lastNameInput = document.getElementById('input-last');
-        const emailInput = document.getElementById('input-email');
-        const countryInput = document.getElementById('input-country');
-        const zipcodeInput = document.getElementById('input-zip');
-        const cityInput = document.getElementById('input-city');
-        const adressInput = document.getElementById('input-adress');
-        const invoCountryInput = document.getElementById('input-incountry');
-        const invoZipInput = document.getElementById('input-inzip');
-        const invoCityInput = document.getElementById('input-incity');
-        const invoAdressInput = document.getElementById('input-inadress');
-        const firstName  = firstNameInput.value;
-        const middleName = middleNameInput.value;
-        const lastName = lastNameInput.value;
-        const email  = emailInput.value;
-        const country  = countryInput.value;
-        const zipcode  = zipcodeInput.value;
-        const city  = cityInput.value;
-        const adress  = adressInput.value;
-        const countryInvo  = invoCountryInput.value;
-        const zipcodeInvo  = invoZipInput.value;
-        const cityInvo  = invoCityInput.value;
-        const adressInvo  = invoAdressInput.value;
-        const newUser =
-            {
-                id: 0,
-                name: {
-                first: firstName,
-                middle: middleName,
-                last: lastName,
-                },
-                email: email,
-                shipping: {
-                country: country,
-                zip: zipcode,
-                city: city,
-                address: adress,
-                },
-                invoice: {
-                country: countryInvo,
-                zip: zipcodeInvo,
-                city: cityInvo,
-                address: adressInvo,
-                }
-            }
-        await postUser(newUser);
-        location.reload();
-        }
-        catch(error){
-            console.error(error.message);
-        }
-    })
-} */
-
 async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
     const pictures = await data.json();
     fetchProducts();
-    /*     fetchData();
-    getNewUser();
-
-    const putBtn = document.getElementById('put-btn');
-    putBtn.addEventListener('click', async () => {
-        try {
-            // Get the input values for the updated user
-            const userIdFromUrl = getUserIdFromUrl();
-
-            const firstNameInput = document.getElementById('input-first');
-            const middleNameInput = document.getElementById('input-middle');
-            const lastNameInput = document.getElementById('input-last');
-            const emailInput = document.getElementById('input-email');
-            const countryInput = document.getElementById('input-country');
-            const zipcodeInput = document.getElementById('input-zip');
-            const cityInput = document.getElementById('input-city');
-            const adressInput = document.getElementById('input-adress');
-            const invoCountryInput = document.getElementById('input-incountry');
-            const invoZipInput = document.getElementById('input-inzip');
-            const invoCityInput = document.getElementById('input-incity');
-            const invoAdressInput = document.getElementById('input-inadress');
-
-            const firstName = firstNameInput.value;
-            const middleName = middleNameInput.value;
-            const lastName = lastNameInput.value;
-            const email = emailInput.value;
-            const country = countryInput.value;
-            const zipcode = zipcodeInput.value;
-            const city = cityInput.value;
-            const adress = adressInput.value;
-            const countryInvo = invoCountryInput.value;
-            const zipcodeInvo = invoZipInput.value;
-            const cityInvo = invoCityInput.value;
-            const adressInvo = invoAdressInput.value;
-
-            const updatedUser = {
-                id: userIdFromUrl,
-                name: {
-                    first: firstName,
-                    middle: middleName,
-                    last: lastName,
-                },
-                email: email,
-                shipping: {
-                    country: country,
-                    zip: zipcode,
-                    city: city,
-                    address: adress,
-                },
-                invoice: {
-                    country: countryInvo,
-                    zip: zipcodeInvo,
-                    city: cityInvo,
-                    address: adressInvo,
-                },
-            };
-            await replaceUser(userIdFromUrl, updatedUser);
-            location.reload();
-        } catch (error) {
-            console.error(error.message);
+    window.addEventListener("click", (e)=> {
+        let totalPrice = 0;
+        console.log(e.target);
+        const shoppingCart = document.getElementById('items');
+        const elements = document.querySelectorAll('.pProduct');
+        for (const element of elements) {
+            element.remove();
         }
-    }); */
+
+        if (e.target.className === 'buttonProduct') {
+            const id = e.target.id.split('button')[1];
+            if (shoppingBasket.hasOwnProperty(id)){
+                shoppingBasket[id] += 1;
+            } else shoppingBasket[id] = 1;
+        }
+        /* console.log(shoppingBasket); */
+        for (const key in shoppingBasket) {
+            for (const product of products) {
+                if (product.id === Number(key)) {
+                    createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
+                    createMyElement('p', 'pProduct', `p2${product.id}`, shoppingBasket[key], shoppingCart);
+                    console.log(product.price)
+                    totalPrice += shoppingBasket[key] * product.price;
+                }
+            }
+        }
+        const allPrice = document.getElementById('allPrice');
+        allPrice.innerText = totalPrice
+    })
 }
 
 window.addEventListener('load', loadEvent);
