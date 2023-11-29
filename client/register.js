@@ -66,11 +66,9 @@ const getNewUser = () =>{
             }
             const response = await postUser(newUser);
             const data = await response.json();
-            console.log(data.id)
-       /*  await postUser(newUser); */
         window.alert(`Your Accaunt succesfully created! Your new ID is: ${data.id}`)
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        window.location.href = '/'; //! VISSZA A FŐOLDALRA
+        localStorage.setItem('currentUser', JSON.stringify(data));
+        window.location.href = '/';
         }
         catch(error){
             console.error(error.message);

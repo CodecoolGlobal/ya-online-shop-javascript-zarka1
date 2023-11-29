@@ -48,7 +48,7 @@ const createProductDiv = async (product) =>{
     const productDiv = createMyElement('div', 'productcontainer', product.id, '', productContainerList);
     createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
     createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
-    createMyElement('p', 'productprice', 'price', `Price: ${product.price}`, productDiv);
+    createMyElement('p', 'productprice', 'price', `Price: ${product.price}$ USD`, productDiv);
     createMyElement('button', 'buttonProduct', `button${product.id}`, 'Add to basket', productDiv);
     const pictureHTML = `<img src="/pictures/${product.image}"/>`
     const productDivHTML = document.getElementById(product.id.toString());
@@ -73,10 +73,33 @@ const fetchProducts = async () =>{
     }
 }
 
+function displayUsername() {
+    const currentUserString = localStorage.getItem('currentUser');
+    const currentUser = JSON.parse(currentUserString);
+    if (currentUser) {
+        const usernameBox = document.createElement('div');
+        usernameBox.classList.add('username-box'); 
+
+        const welcomeMessage = document.createElement('p');
+        welcomeMessage.textContent = `Welcome, ${currentUser.name.first}!`;
+        usernameBox.appendChild(welcomeMessage);
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'EDIT';
+        editButton.setAttribute('id', 'editcurrentuser');
+        editButton.addEventListener('click', () => {
+            window.location.href = `/register/${currentUser.id}`;
+        });
+        usernameBox.appendChild(editButton);
+        rootElement.appendChild(usernameBox);
+    }
+}
+
 async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
     const pictures = await data.json();
     fetchProducts();
+    displayUsername();
     window.addEventListener("click", (e)=> {
         let totalPrice = 0;
         console.log(e.target);
@@ -97,14 +120,14 @@ async function loadEvent() {
             for (const product of products) {
                 if (product.id === Number(key)) {
                     createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
-                    createMyElement('p', 'pProduct', `p2${product.id}`, shoppingBasket[key], shoppingCart);
+                    createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, shoppingCart);
                     console.log(product.price)
                     totalPrice += shoppingBasket[key] * product.price;
                 }
             }
         }
         const allPrice = document.getElementById('allPrice');
-        allPrice.innerText = totalPrice
+        allPrice.innerText = totalPrice + ' $ USD'
     })
 }
 
