@@ -55,6 +55,12 @@ flex-direction: column;
     left: 900px;
 }
 
+#shoppingcart{
+    position: fixed;
+    top: 100px;
+    right: 0;
+}
+
 #registertext{
     background: linear-gradient(to right, #ff0054, #000000,#00c3ff);
     border: 2px solid black;
