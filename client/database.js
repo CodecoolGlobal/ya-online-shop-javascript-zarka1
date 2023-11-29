@@ -12,7 +12,7 @@ function createMyElement(type, elementClass, id, content, parent){
     return element;
 }
 
-function getUserIdFromUrl() {
+/* function getUserIdFromUrl() {
     // Get the current URL
     const currentUrl = window.location.href;
 
@@ -21,27 +21,19 @@ function getUserIdFromUrl() {
     const userIdFromUrl = parseInt(urlParts[urlParts.length - 1]);
 
     return userIdFromUrl;
-}
+} */
 
-const postUser = async (user) =>{
-    await fetch('/api/users', {
+const postShoppingCart = async (shoppingBasket) =>{
+    await fetch('/api/orders', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(shoppingBasket)
     });
+    return shoppingBasket;
 }
 
-const replaceUser = async (userId, user) => {
-    await fetch(`/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-    });
-};
 
 const createProductDiv = async (product) =>{
     const productContainerList = document.getElementById('product-list-container')
@@ -100,7 +92,7 @@ async function loadEvent() {
     const pictures = await data.json();
     fetchProducts();
     displayUsername();
-    window.addEventListener("click", (e)=> {
+    window.addEventListener("click", async (e)=> {
         let totalPrice = 0;
         console.log(e.target);
         const shoppingCart = document.getElementById('items');
@@ -114,20 +106,30 @@ async function loadEvent() {
             if (shoppingBasket.hasOwnProperty(id)){
                 shoppingBasket[id] += 1;
             } else shoppingBasket[id] = 1;
-        }
-        /* console.log(shoppingBasket); */
-        for (const key in shoppingBasket) {
-            for (const product of products) {
-                if (product.id === Number(key)) {
-                    createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
-                    createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, shoppingCart);
-                    console.log(product.price)
-                    totalPrice += shoppingBasket[key] * product.price;
+            for (const key in shoppingBasket) {
+                for (const product of products) {
+                    if (product.id === Number(key)) {
+                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
+                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, shoppingCart);
+                        const deleteButton = document.getElementById(`del${product.id}`);
+                        if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', shoppingCart);
+                        console.log(product.price)
+                        totalPrice += shoppingBasket[key] * product.price;
+                    }
                 }
             }
+            const allPrice = document.getElementById('allPrice');
+            allPrice.innerText = totalPrice + ' $ USD'
+        } else if (e.target.id === 'buynow'){
+            e.preventDefault();
+            totalPrice = 0; 
+            const allPrice = document.getElementById('allPrice');
+            allPrice.innerText = totalPrice + ' $ USD'
+            const response = await postShoppingCart(shoppingBasket);
+            console.log(response);
+            shoppingBasket = {};
+            /* window.alert(`Your Accaunt succesfully created! Your new ID is: ${data.id}`) */
         }
-        const allPrice = document.getElementById('allPrice');
-        allPrice.innerText = totalPrice + ' $ USD'
     })
 }
 

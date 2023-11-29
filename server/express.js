@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from 'express';
 import path from 'path';
 import url from 'url';
 import { readFile, writeFile } from 'fs/promises';
@@ -26,8 +26,25 @@ const getUsersData = async () => {
     }
 }
 
+const getOrdersData = async () => {
+    try{
+        const data = await readFile('./orderdata.json', 'utf-8');
+        console.log(data)
+        const ordersData = JSON.parse(data);
+        console.log('or:' + ordersData["orders"][0].id)
+        return ordersData.orders;
+    }
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
+}
+
 async function writeUsersData(data) {
     await writeFile('userdata.json', JSON.stringify({users: data}), 'utf-8');
+}
+
+async function writeOrdersData(data) {
+    await writeFile('orderdata.json', JSON.stringify({orders: data}), 'utf-8');
 }
 
 app.get('/api/users', async (req, res)=>{
@@ -49,9 +66,23 @@ app.post('/api/users', async (req, res) => {
         newUser.id = existingUsersData[existingUsersData.length -1].id + 1 || 0;
         existingUsersData.push(newUser);
         await writeUsersData(existingUsersData);
-        /* res.json(newUser); */
         res.send(newUser);
         console.log(newUser)
+    } catch (error) {
+        console.error('Error handling POST request:', error.message);
+    }
+});
+
+app.post('/api/orders', async (req, res) => {
+    try {
+        const newOrder = req.body;
+        console.log(newOrder);
+        const existingOrdersData = await getOrdersData();
+        newOrder.id = existingOrdersData ? existingOrdersData.length: 0;
+        existingOrdersData.push(newOrder);
+        await writeOrdersData(existingOrdersData);
+        res.send(newOrder);
+        console.log(newOrder);
     } catch (error) {
         console.error('Error handling POST request:', error.message);
     }
@@ -80,7 +111,7 @@ app.get('/products', async (req, res)=>{
     }
 });
 
-app.get('/products/:id', async (req, res)=>{
+/* app.get('/products/:id', async (req, res)=>{
     try{
         const id = req.params.id;
         const data = await readFile('products.json', 'utf-8');
@@ -89,14 +120,12 @@ app.get('/products/:id', async (req, res)=>{
             if (product.id === Number(id)) return product;
         })
         console.log(product.image)
-    
-/*         res.send(JSON.stringify(path.join(_dirname, '../client/pictures', `${product.image}`))) */
         res.sendFile(path.join(_dirname,"../client/pictures/star_wars.jpg"));
 }
     catch(error){
         console.error('Error reading JSON file:', error.message);
     }
-});
+}); */
 
 
 app.get('/edit/users/:id', (req, res)=>{
