@@ -95,13 +95,18 @@ async function loadEvent() {
     window.addEventListener("click", async (e)=> {
         let totalPrice = 0;
         console.log(e.target);
-        const shoppingCart = document.getElementById('items');
-        const elements = document.querySelectorAll('.pProduct');
+/*         const shoppingCart = document.getElementById('items');
+        const elements = document.querySelectorAll('.pDiv');
         for (const element of elements) {
             element.remove();
-        }
+        } */
 
         if (e.target.className === 'buttonProduct') {
+            const shoppingCart = document.getElementById('items');
+            const elements = document.querySelectorAll('.pDiv');
+            for (const element of elements) {
+                element.remove();
+            }
             const id = e.target.id.split('button')[1];
             if (shoppingBasket.hasOwnProperty(id)){
                 shoppingBasket[id] += 1;
@@ -109,10 +114,12 @@ async function loadEvent() {
             for (const key in shoppingBasket) {
                 for (const product of products) {
                     if (product.id === Number(key)) {
-                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, shoppingCart);
-                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, shoppingCart);
+                        createMyElement('div', 'pDiv', `div${product.id}`, '',shoppingCart  )
+                        const pDiv = document.getElementById(`div${product.id}`);
+                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, pDiv);
+                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, pDiv);
                         const deleteButton = document.getElementById(`del${product.id}`);
-                        if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', shoppingCart);
+                        if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', pDiv);
                         console.log(product.price)
                         totalPrice += shoppingBasket[key] * product.price;
                     }
@@ -128,7 +135,27 @@ async function loadEvent() {
             const response = await postShoppingCart(shoppingBasket);
             console.log(response);
             shoppingBasket = {};
-            /* window.alert(`Your Accaunt succesfully created! Your new ID is: ${data.id}`) */
+            window.alert(`Thank you for your purchasing, your order is saved in our system!`)
+        } else if (e.target.className === 'delete') {
+            e.preventDefault();
+            const productID = e.target.id.split('del')[1];
+            console.log(productID);
+            const toDeleteDiv = document.getElementById(`div`+productID)
+            console.log(`div${productID}`)
+            console.log(toDeleteDiv)
+            toDeleteDiv.remove();
+
+            console.log(shoppingBasket)
+            delete shoppingBasket[productID];
+            for (const key in shoppingBasket) {
+                for (const product of products) {
+                    if (product.id === Number(key)) {
+                        totalPrice += shoppingBasket[key] * product.price;
+                    }
+                }
+            }
+            const allPrice = document.getElementById('allPrice');
+            allPrice.innerText = totalPrice + ' $ USD'
         }
     })
 }
