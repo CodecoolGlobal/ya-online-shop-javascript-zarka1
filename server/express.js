@@ -57,12 +57,50 @@ app.post('/api/users', async (req, res) => {
     }
 });
 
+app.get('/', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/database.html"));
+});
+
 app.get('/register', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/register.html"));
 });
 
 app.get('/register/:id', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/edituser.html"));
+});
+
+app.get('/products', async (req, res)=>{
+    try{
+        const data = await readFile('products.json', 'utf-8');
+        const productsData = JSON.parse(data);
+        res.send(productsData);
+    }
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
+});
+
+app.get('/products/:id', async (req, res)=>{
+    try{
+        const id = req.params.id;
+        const data = await readFile('products.json', 'utf-8');
+        const productsData = JSON.parse(data);
+        const product = productsData.products.find((product) => {
+            if (product.id === Number(id)) return product;
+        })
+        console.log(product.image)
+    
+/*         res.send(JSON.stringify(path.join(_dirname, '../client/pictures', `${product.image}`))) */
+        res.sendFile(path.join(_dirname,"../client/pictures/star_wars.jpg"));
+}
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
+});
+
+
+app.get('/edit/users/:id', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/personal.html"));
 });
 
 app.put('/api/users/:id', async (req, res) => {

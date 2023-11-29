@@ -70,7 +70,7 @@ const getNewUser = () =>{
        /*  await postUser(newUser); */
         window.alert(`Your Accaunt succesfully created! Your new ID is: ${data.id}`)
         localStorage.setItem('currentUser', JSON.stringify(newUser));
-        window.location.href = '/';
+        window.location.href = '/'; //! VISSZA A FŐOLDALRA
         }
         catch(error){
             console.error(error.message);

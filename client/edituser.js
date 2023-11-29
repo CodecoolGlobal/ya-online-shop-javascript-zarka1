@@ -85,7 +85,7 @@ function loadEvent() {
 
     const backButton = document.getElementById('backtoshop');
     backButton.addEventListener('click', async ()=>{
-        window.location.href = '/';
+        window.location.href = '/'; //!VISSZA A FŐ OLDALRA
     })
 
     const deleteBtn = document.getElementById('delete-btn');
