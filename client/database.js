@@ -40,37 +40,39 @@ const replaceUser = async (userId, user) => {
     });
 };
 
-const createUserDiv = (user) =>{
-    const userDiv = createMyElement('div', 'usercontainer', user.id, '', rootElement);
-    const id = createMyElement('h4', 'userid', 'id', `ID: ${user.id}`, userDiv);
-    const name = createMyElement ('h2', 'username', 'name', `Name: ${user.name.first} ${user.name.middle} ${user.name.last}`, userDiv);
-    const email = createMyElement('p', 'useremail', 'email', `Email: ${user.email}`, userDiv);
-    const country = createMyElement('p', 'usercountry', 'country', `Country: ${user.shipping.country}`, userDiv);
-    const zip = createMyElement('p', 'userzip', 'zip', `Zipcode: ${user.shipping.zip}`, userDiv);
-    const city = createMyElement('p', 'usercity', 'city', `City: ${user.shipping.city}`, userDiv);
-    const adress = createMyElement('p', 'useraddress', 'address', `Address: ${user.shipping.address}`, userDiv);
-    return userDiv;
+const createProductDiv = async (product) =>{
+    const productContainerList = document.getElementById('product-list-container')
+    const productDiv = createMyElement('div', 'productcontainer', product.id, '', productContainerList);
+    createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
+    createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
+    createMyElement('p', 'productprice', 'price', `Price: ${product.price}`, productDiv);
+    const pictureHTML = `<img src="/pictures/${product.image}"/>`
+    const productDivHTML = document.getElementById(product.id.toString());
+    productDivHTML.insertAdjacentHTML('beforeend', pictureHTML);
+    createMyElement('p', 'productsize', 'size', `Size: ${product.size}`, productDiv);
+    
 }
 
-const fetchData = async () =>{
+const fetchProducts = async () =>{
     try{
-        const response = await fetch('/api/users');
+        const response = await fetch('/products');
         if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
         const data = await response.json();
-        const userElements = data.map((user)=> createUserDiv(user));
-        const userListContainer = document.getElementById('user-list-container');
-        userElements.forEach((userElement) => {
-            userListContainer.appendChild(userElement);
-        });
+        data.products.map((product)=> createProductDiv(product));
+        document.getElementById('product-list-container');
+/*         productElements.forEach((productElement) => {
+            productListContainer.insertAdjacentHTML('beforeend', productElement);
+        }); */
+
     }
     catch(error){
     console.error(error.message);
     }
 }
 
-const getNewUser = () =>{
+/* const getNewUser = () =>{
     const form = document.getElementById('new-user');
     form.addEventListener('submit', async (event)=>{
         try{
@@ -128,11 +130,12 @@ const getNewUser = () =>{
             console.error(error.message);
         }
     })
-}
+} */
 
 async function loadEvent() {
-    const picture = await fetch('http://localhost:8080/pictures/back_to_the_future.webp');
-    console.log(picture);
+    const data = await fetch('http://localhost:8080/products');
+    const pictures = await data.json();
+    fetchProducts();
     /*     fetchData();
     getNewUser();
 

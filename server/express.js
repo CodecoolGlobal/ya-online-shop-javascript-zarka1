@@ -11,12 +11,13 @@ const _dirname = path.dirname(_filename);
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(_dirname, '../client')));
+/* app.use(express.static(path.join(_dirname, '../client/pictures'))); */
 
 app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 });
 
-const data = await readFile('/data')
+
 const getUsersData = async () => {
     try{
         const data = await readFile('userdata.json', 'utf-8');
@@ -57,13 +58,39 @@ app.post('/api/users', async (req, res) => {
     }
 });
 
-app.get('/edit/users', (req, res)=>{
+app.get('/', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/database.html"));
 });
 
-app.get('/products', (req, res)=>{
-    res.sendFile(path.join(_dirname,"/pictures/back_to_the_future.jpg"))
+app.get('/products', async (req, res)=>{
+    try{
+        const data = await readFile('products.json', 'utf-8');
+        const productsData = JSON.parse(data);
+        res.send(productsData);
+    }
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
 });
+
+app.get('/products/:id', async (req, res)=>{
+    try{
+        const id = req.params.id;
+        const data = await readFile('products.json', 'utf-8');
+        const productsData = JSON.parse(data);
+        const product = productsData.products.find((product) => {
+            if (product.id === Number(id)) return product;
+        })
+        console.log(product.image)
+    
+/*         res.send(JSON.stringify(path.join(_dirname, '../client/pictures', `${product.image}`))) */
+        res.sendFile(path.join(_dirname,"../client/pictures/star_wars.jpg"));
+}
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
+});
+
 
 app.get('/edit/users/:id', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/personal.html"));
