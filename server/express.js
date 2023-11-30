@@ -51,6 +51,7 @@ app.get('/api/users', async (req, res)=>{
         res.json(usersData);
     }
     catch(error){
+
         console.error(error.message);
     }
 })

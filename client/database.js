@@ -103,7 +103,6 @@ async function loadEvent() {
                         createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}pcs`, pDiv);
                         const deleteButton = document.getElementById(`del${product.id}`);
                         if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', pDiv);
-                        /* console.log(product.price) */
                         totalPrice += shoppingBasket[key] * product.price;
                     }
                 }

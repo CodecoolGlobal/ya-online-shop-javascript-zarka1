@@ -130,6 +130,10 @@ justify-content: center;
     color: #FFD700;
 }
 
+#editform{
+    display: none;
+}
+
 .producttitle{
     margin: 0;
     margin-bottom: 10px;
@@ -141,6 +145,7 @@ justify-content: center;
 }
 
 #shoppingcart{
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     position: fixed;

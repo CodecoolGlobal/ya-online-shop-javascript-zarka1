@@ -6,25 +6,25 @@
     <script src="/dataedit.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
+<body id="body">
     <div id="root">
         <h2 id="productstext">PRODUCTS</h2>
         <div id="product-list-container">
         </div>
-        <form id="productNew">
+        <form id="productEdit">
             <label><h4 id="addnewtext">Form for adding new product</h4></label><br>
-            <label >Id:</label><br>
-            <input type="text" class="editform" placeholder="id" id="id"><br>
+            <label hidden>Id:</label><br>
+            <input type="text" hidden class="editform" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="id" id="id" required><br>
             <label >Title:</label><br>
-            <input type="text" class="editform" placeholder="title" id="input-title"><br>
+            <input type="text" class="editform" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="title" id="input-title" required><br>
             <label >Price:</label><br>
-            <input type="text" class="editform" placeholder="price" id="price"><br>
+            <input type="text" class="editform" pattern="[a-zA-Z0-9À-ÖØ-öø-ÿ '’-]" placeholder="price" id="price" required><br>
             <label >Image:</label><br>
-            <input type="text" class="editform" placeholder="image" id="image"><br>
+            <input type="text" class="editform" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="image" id="image" required><br>
             <label >Size:</label><br>
-            <input type="text" class="editform" placeholder="size" id="size"><br>
+            <input type="text" class="editform" pattern="[a-zA-Z0-9À-ÖØ-öø-ÿ '’-]" placeholder="size" id="size" required><br>
             <div>
-                <button id="addnew">CREATE</button><button id="addnew">EDIT</button>
+                <button id="addnew">CREATE</button><button id="editposter">EDIT</button>
             </div>
         </form>
     </div>

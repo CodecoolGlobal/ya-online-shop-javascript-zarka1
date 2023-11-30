@@ -13,16 +13,16 @@
         <div id="inputfield">
             <form id="new-user">
                 <h1 id="username">Name</h1>
-                <input type="text" placeholder="First name" id="input-first">
-                <input type="text" placeholder="Middle name" id="input-middle">
-                <input type="text" placeholder="Last name" id="input-last">
+                <input type="text" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="First name" id="input-first" required>
+                <input type="text" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="Middle name" id="input-middle">
+                <input type="text" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="Last name" id="input-last" required>
                 <h3 id="useremail">Email</h3>
-                <input type="text" placeholder="Email adress" id="input-email">
+                <input type="email" placeholder="Email adress" id="input-email" required>
                 <h3 id="usershipping">Shipping</h3>
-                <input type="text" placeholder="Country" id="input-country">
-                <input type="number" placeholder="Zipcode" id="input-zip">
-                <input type="text" placeholder="City" id="input-city">
-                <input type="text" placeholder="Adress" id="input-adress">
+                <input type="text" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="Country" id="input-country" required>
+                <input type="number" placeholder="Zipcode" id="input-zip" required>
+                <input type="text" pattern="[a-zA-ZÀ-ÖØ-öø-ÿ '’-]" placeholder="City" id="input-city" required>
+                <input type="text" placeholder="Adress" id="input-adress" required>
                 <div id="buttondiv">
                     <button type="button" id="patch-btn">EDIT</button>
                     <button type="button" id="delete-btn">DELETE</button>
