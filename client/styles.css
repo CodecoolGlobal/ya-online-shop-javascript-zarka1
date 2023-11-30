@@ -10,6 +10,33 @@ body{
     margin: 0px;
 }
 
+#productEdit{
+    margin: 0;
+    position: fixed;
+    padding: 8px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    margin: 12px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background-color: #c4c4c4;
+    border: 2px solid black;
+    border-radius: 12px;
+}
+
+#addnewtext{
+    margin: 0;
+}
+
+#edittext{
+    margin: 0;
+}
+
 #bodyedit {
     height: 100%;
     font-family: 'Arial', sans-serif;
@@ -215,6 +242,16 @@ button{
     user-select: none;
 }
 
+.delete{
+font-size: 12px;
+padding: 6px 12px;
+}
+
+#editcurrentuser{
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
 #backtoshop{
     margin: 15px;
     cursor: pointer;
@@ -231,9 +268,21 @@ button{
     width: fit-content;
 }
 
+.pDiv{
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
 button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     scale: 1.1;
+}
+
+.pProduct{
+    color: #ff0054;
 }
 
 h1, h2, h3, h4 {

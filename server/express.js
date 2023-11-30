@@ -223,7 +223,26 @@ app.delete('/api/products/:id', async (req, res) => {
             existingProductsData.splice(indexToDelete, 1);
             console.log(existingProductsData);
             await writeProductsData(existingProductsData);
-            res.json({ message: 'User deleted successfully' });
+            res.json({ message: 'Product deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        throw error;
+    }
+});
+
+app.put('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        const existingProductsData = await getProductsData();
+        const indexToModify = existingProductsData.findIndex((product) => product.id === productId);
+        if (indexToModify !== -1) {
+            existingProductsData[indexToModify] = req.body;
+            console.log(existingProductsData);
+            await writeProductsData(existingProductsData);
+            res.json({ message: 'Product modified successfully' });
         } else {
             res.status(404).json({ error: 'Product not found' });
         }

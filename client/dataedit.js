@@ -1,6 +1,7 @@
 const rootElement = document.getElementById('root');
 let shoppingBasket = {};
 let products = [];
+let actualProduct;
 
 
 function createMyElement(type, elementClass, id, content, parent){
@@ -97,6 +98,7 @@ async function loadEvent() {
                 return (product.id === Number(e.target.id.split('buttonEdit')[1]));
               });
             console.log(product);
+            actualProduct = product;
             const idEdit = document.getElementById('input-ide');
             idEdit.value = product.id;
             const titleEdit = document.getElementById('input-titlee');
@@ -107,7 +109,7 @@ async function loadEvent() {
             imageEdit.value = product.image;
             const sizeEdit = document.getElementById('input-sizee');
             sizeEdit.value = product.size;
-            }   else if (e.target.className === 'buttonDelete') {
+        }   else if (e.target.className === 'buttonDelete') {
                 e.preventDefault();
                 console.log(e.target.id.split('buttonDelete')[1]);
                 const productsData = await fetchProductsWithoutPic();
@@ -116,9 +118,35 @@ async function loadEvent() {
                     return (product.id === Number(e.target.id.split('buttonDelete')[1]));
             });
                 console.log(product);
-            const toDeleteDiv = document.getElementById(product.id)
-            toDeleteDiv.remove();
-            await fetchData(`http://localhost:8080/api/products/${product.id}`, product, "DELETE");
+                const toDeleteDiv = document.getElementById(product.id)
+                toDeleteDiv.remove();
+                await fetchData(`http://localhost:8080/api/products/${product.id}`, product, "DELETE");
+        }   else if (e.target.id === 'edit') {
+                e.preventDefault();
+                const productPut = actualProduct;
+                const titleEdit = document.getElementById('input-titlee');
+                productPut.title = titleEdit.value;
+                const priceEdit = document.getElementById('input-pricee');
+                productPut.price = priceEdit.value;
+                const imageEdit = document.getElementById('input-imagee');
+                productPut.image = imageEdit.value;
+                const sizeEdit = document.getElementById('input-sizee');
+                productPut.size = sizeEdit.value;
+                await fetchData(`http://localhost:8080/api/products/${productPut.id}`, productPut, "PUT");
+                const productDiv = document.querySelectorAll('.productcontainer');
+/*                 const element = document.getElementById(window);
+                console.log(element) */
+                let y = window.pageYOffset;
+                console.log(y)
+                for (const product of productDiv) {
+                    product.remove();
+                }
+                fetchProducts();
+                window.pageYOffset = y;
+        }  else if (e.target.className === 'addnew') {
+            e.preventDefault();
+
+            console.log('hello')
         }
     })
 }
