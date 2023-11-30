@@ -29,9 +29,7 @@ const getUsersData = async () => {
 const getOrdersData = async () => {
     try{
         const data = await readFile('./orderdata.json', 'utf-8');
-        console.log(data)
         const ordersData = JSON.parse(data);
-        console.log('or:' + ordersData["orders"][0].id)
         return ordersData.orders;
     }
     catch(error){
@@ -81,8 +79,8 @@ app.post('/api/orders', async (req, res) => {
         newOrder.id = existingOrdersData ? existingOrdersData.length: 0;
         existingOrdersData.push(newOrder);
         await writeOrdersData(existingOrdersData);
-        res.send(newOrder);
-        console.log(newOrder);
+        const response = {orderID : newOrder.id}
+        res.send(response);
     } catch (error) {
         console.error('Error handling POST request:', error.message);
     }
@@ -90,6 +88,10 @@ app.post('/api/orders', async (req, res) => {
 
 app.get('/', (req, res)=>{
     res.sendFile(path.join(_dirname,"../client/database.html"));
+});
+
+app.get('/edit', (req, res)=>{
+    res.sendFile(path.join(_dirname,"../client/data.html"));
 });
 
 app.get('/register', (req, res)=>{
