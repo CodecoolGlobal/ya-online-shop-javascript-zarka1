@@ -252,3 +252,22 @@ app.put('/api/products/:id', async (req, res) => {
         throw error;
     }
 });
+
+app.post('/api/products', async (req, res) => {
+    try {
+        const existingProductsData = await getProductsData();
+        let id = 0;
+        const newProduct = req.body;
+        for (const product of existingProductsData) {
+          if (Number(product.id) > id) id = Number(product.id);
+        }
+        newProduct.id = id + 1;
+        existingProductsData.push(newProduct);
+        console.log(existingProductsData);
+        await writeProductsData(existingProductsData);
+        res.json({ message: 'Product added successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        throw error;
+    }
+});
