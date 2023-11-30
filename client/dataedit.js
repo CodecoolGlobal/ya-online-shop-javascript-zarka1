@@ -91,6 +91,8 @@ async function loadEvent() {
         console.log(e.target);
 
         if (e.target.className === 'buttonEdit') {
+            const editButton = document.getElementById('edit');
+            editButton.style.display = 'block';
             console.log(e.target.id.split('buttonEdit')[1]);
             const productsData = await fetchProductsWithoutPic();
             console.log(productsData);
@@ -109,6 +111,8 @@ async function loadEvent() {
             imageEdit.value = product.image;
             const sizeEdit = document.getElementById('input-size');
             sizeEdit.value = product.size;
+            const createButton = document.getElementById('addnew');
+            createButton.style.display = 'none';
         }   else if (e.target.className === 'buttonDelete') {
                 e.preventDefault();
                 console.log(e.target.id.split('buttonDelete')[1]);
@@ -122,6 +126,10 @@ async function loadEvent() {
                 toDeleteDiv.remove();
                 await fetchData(`http://localhost:8080/api/products/${product.id}`, product, "DELETE");
         }   else if (e.target.id === 'edit') {
+                const createButton = document.getElementById('addnew');
+                createButton.style.display = 'block';
+                const editButton = document.getElementById('edit');
+                editButton.style.display = 'none';
                 e.preventDefault();
                 const productPut = actualProduct;
                 const titleEdit = document.getElementById('input-title');
