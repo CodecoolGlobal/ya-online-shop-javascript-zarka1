@@ -2,6 +2,7 @@ const rootElement = document.getElementById('root');
 let shoppingBasket = {};
 let products = [];
 
+
 function createMyElement(type, elementClass, id, content, parent){
     const element = document.createElement(type);
     parent.appendChild(element);
@@ -11,31 +12,21 @@ function createMyElement(type, elementClass, id, content, parent){
     return element;
 }
 
-const postShoppingCart = async (shoppingBasket) =>{
-    const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify(shoppingBasket)
-    });
-    const response = await res.json();
-    return response;
-}
-
 const createProductDiv = async (product) =>{
     const productContainerList = document.getElementById('product-list-container')
     const productDiv = createMyElement('div', 'productcontainer', product.id, '', productContainerList);
     createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
     createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
     createMyElement('p', 'productprice', 'price', `Price: ${product.price}$ USD`, productDiv);
-    createMyElement('button', 'buttonProduct', `button${product.id}`, 'Add to basket', productDiv);
+    createMyElement('button', 'button', `buttonEdit${product.id}`, 'Edit', productDiv);
+    createMyElement('button', 'button', `buttonDelete${product.id}`, 'Delete', productDiv);
     const pictureHTML = `<img src="/pictures/${product.image}"/>`
     const productDivHTML = document.getElementById(product.id.toString());
     productDivHTML.insertAdjacentHTML('beforeend', pictureHTML);
     createMyElement('p', 'productsize', 'size', `Size: ${product.size}`, productDiv);
     
 }
+
 
 const fetchProducts = async () =>{
     try{
@@ -53,38 +44,14 @@ const fetchProducts = async () =>{
     }
 }
 
-function displayUsername() {
-    const currentUserString = localStorage.getItem('currentUser');
-    const currentUser = JSON.parse(currentUserString);
-    if (currentUser) {
-        const usernameBox = document.createElement('div');
-        usernameBox.classList.add('username-box'); 
-
-        const welcomeMessage = document.createElement('p');
-        welcomeMessage.textContent = `Welcome, ${currentUser.name.first}!`;
-        usernameBox.appendChild(welcomeMessage);
-
-        const editButton = document.createElement('button');
-        editButton.textContent = 'EDIT';
-        editButton.setAttribute('id', 'editcurrentuser');
-        editButton.addEventListener('click', () => {
-            window.location.href = `/register/${currentUser.id}`;
-        });
-        usernameBox.appendChild(editButton);
-        rootElement.appendChild(usernameBox);
-    }
-}
-
 async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
-    const pictures = await data.json();
+    /* const pictures = await data.json(); */
     fetchProducts();
-    displayUsername();
     window.addEventListener("click", async (e)=> {
-        let totalPrice = 0;
         console.log(e.target);
 
-        if (e.target.className === 'buttonProduct') {
+        if (e.target.className === 'buttonEdit') {
             const shoppingCart = document.getElementById('items');
             const elements = document.querySelectorAll('.pDiv');
             for (const element of elements) {
@@ -99,8 +66,8 @@ async function loadEvent() {
                     if (product.id === Number(key)) {
                         createMyElement('div', 'pDiv', `div${product.id}`, '',shoppingCart  )
                         const pDiv = document.getElementById(`div${product.id}`);
-                        createMyElement('p', 'pProductname', `p1${product.id}`, product.title, pDiv);
-                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}pcs`, pDiv);
+                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, pDiv);
+                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, pDiv);
                         const deleteButton = document.getElementById(`del${product.id}`);
                         if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', pDiv);
                         /* console.log(product.price) */

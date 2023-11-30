@@ -10,6 +10,33 @@ body{
     margin: 0px;
 }
 
+#productNew{
+    margin: 0;
+    position: fixed;
+    padding: 8px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    margin: 12px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background-color: #c4c4c4;
+    border: 2px solid black;
+    border-radius: 12px;
+}
+
+#addnewtext{
+    margin: 0;
+}
+
+#edittext{
+    margin: 0;
+}
+
 #bodyedit {
     height: 100%;
     font-family: 'Arial', sans-serif;
