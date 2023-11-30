@@ -87,6 +87,8 @@ async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
     /* const pictures = await data.json(); */
     fetchProducts();
+    const editButton = document.getElementById('edit');
+    editButton.style.display = 'none';
     window.addEventListener("click", async (e)=> {
         console.log(e.target);
 
@@ -142,15 +144,21 @@ async function loadEvent() {
                 productPut.size = sizeEdit.value;
                 await fetchData(`http://localhost:8080/api/products/${productPut.id}`, productPut, "PUT");
                 const productDiv = document.querySelectorAll('.productcontainer');
+                titleEdit.value = '';
+                priceEdit.value = '';
+                imageEdit.value = '';
+                sizeEdit.value = '';
 /*                 const element = document.getElementById(window);
                 console.log(element) */
   /*               let y = window.pageYOffset;
                 console.log(y) */
+                const scrollpos = window.scrollY;
+                console.log(scrollpos); 
                 for (const product of productDiv) {
                     product.remove();
                 }
-                fetchProducts();
-                /* window.pageYOffset = y; */
+                await fetchProducts();
+                window.scrollTo(0, scrollpos)
         }  else if (e.target.id === 'addnew') {
             e.preventDefault();
             const productPut = {};
@@ -173,7 +181,10 @@ async function loadEvent() {
             }
             fetchProducts();
             /* window.pageYOffset = y; */
-            console.log('hello')
+            titleEdit.value = '';
+            priceEdit.value = '';
+            imageEdit.value = '';
+            sizeEdit.value = '';
         }
     })
 }

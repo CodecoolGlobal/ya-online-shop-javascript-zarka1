@@ -179,10 +179,8 @@ app.patch('/api/users/:id', async (req, res)=>{
 app.delete('/api/users/:id', async (req, res) => {
     try {
         const userId = parseInt(req.params.id);
-
         const existingUsersData = await getUsersData();
         const indexToDelete = existingUsersData.findIndex((user) => user.id === userId);
-
         if (indexToDelete !== -1) {
             existingUsersData.splice(indexToDelete, 1);
             await writeUsersData(existingUsersData);
