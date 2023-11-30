@@ -1,6 +1,7 @@
 const rootElement = document.getElementById('root');
 let shoppingBasket = {};
 let products = [];
+let actualProduct;
 
 
 function createMyElement(type, elementClass, id, content, parent){
@@ -18,8 +19,8 @@ const createProductDiv = async (product) =>{
     createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
     createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
     createMyElement('p', 'productprice', 'price', `Price: ${product.price}$ USD`, productDiv);
-    createMyElement('button', 'button', `buttonEdit${product.id}`, 'Edit', productDiv);
-    createMyElement('button', 'button', `buttonDelete${product.id}`, 'Delete', productDiv);
+    createMyElement('button', 'buttonEdit', `buttonEdit${product.id}`, 'Edit', productDiv);
+    createMyElement('button', 'buttonDelete', `buttonDelete${product.id}`, 'Delete', productDiv);
     const pictureHTML = `<img src="/pictures/${product.image}"/>`
     const productDivHTML = document.getElementById(product.id.toString());
     productDivHTML.insertAdjacentHTML('beforeend', pictureHTML);
@@ -38,11 +39,49 @@ const fetchProducts = async () =>{
         products = data.products;
         data.products.map((product)=> createProductDiv(product));
         document.getElementById('product-list-container');
+        return products;
     }
     catch(error){
     console.error(error.message);
     }
 }
+
+const fetchProductsWithoutPic = async () =>{
+    try{
+        const response = await fetch('/products');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        products = data.products;
+        return products;
+    }
+    catch(error){
+    console.error(error.message);
+    }
+}
+
+async function fetchData (url, bodyAct, method) {
+    if (method === "PUT") {
+        await fetch(url, {
+        method: "PUT",
+        headers: {"Content-type":"application/json"}, 
+        body: JSON.stringify(bodyAct),
+        });
+    } else if (method === "POST") {
+      await fetch(url, {
+      method: "POST",
+      headers: {"Content-type":"application/json"}, 
+      body: JSON.stringify(bodyAct),
+      });
+    } else if (method === "DELETE") {
+      await fetch(url, {
+      method: "DELETE",
+      headers: {"Content-type":"application/json"}, 
+      body: JSON.stringify(bodyAct),
+      });
+    } 
+  }
 
 async function loadEvent() {
     const data = await fetch('http://localhost:8080/products');
@@ -52,70 +91,76 @@ async function loadEvent() {
         console.log(e.target);
 
         if (e.target.className === 'buttonEdit') {
-            const shoppingCart = document.getElementById('items');
-            const elements = document.querySelectorAll('.pDiv');
-            for (const element of elements) {
-                element.remove();
-            }
-            const id = e.target.id.split('button')[1];
-            if (shoppingBasket.hasOwnProperty(id)){
-                shoppingBasket[id] += 1;
-            } else shoppingBasket[id] = 1;
-            for (const key in shoppingBasket) {
-                for (const product of products) {
-                    if (product.id === Number(key)) {
-                        createMyElement('div', 'pDiv', `div${product.id}`, '',shoppingCart  )
-                        const pDiv = document.getElementById(`div${product.id}`);
-                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, pDiv);
-                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, pDiv);
-                        const deleteButton = document.getElementById(`del${product.id}`);
-                        if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', pDiv);
-                        /* console.log(product.price) */
-                        totalPrice += shoppingBasket[key] * product.price;
-                    }
+            console.log(e.target.id.split('buttonEdit')[1]);
+            const productsData = await fetchProductsWithoutPic();
+            console.log(productsData);
+            const product = productsData.find((product) => {
+                return (product.id === Number(e.target.id.split('buttonEdit')[1]));
+              });
+            console.log(product);
+            actualProduct = product;
+            const idEdit = document.getElementById('input-ide');
+            idEdit.value = product.id;
+            const titleEdit = document.getElementById('input-titlee');
+            titleEdit.value = product.title;
+            const priceEdit = document.getElementById('input-pricee');
+            priceEdit.value = product.price;
+            const imageEdit = document.getElementById('input-imagee');
+            imageEdit.value = product.image;
+            const sizeEdit = document.getElementById('input-sizee');
+            sizeEdit.value = product.size;
+        }   else if (e.target.className === 'buttonDelete') {
+                e.preventDefault();
+                console.log(e.target.id.split('buttonDelete')[1]);
+                const productsData = await fetchProductsWithoutPic();
+                console.log(productsData);
+                const product = productsData.find((product) => {
+                    return (product.id === Number(e.target.id.split('buttonDelete')[1]));
+            });
+                console.log(product);
+                const toDeleteDiv = document.getElementById(product.id)
+                toDeleteDiv.remove();
+                await fetchData(`http://localhost:8080/api/products/${product.id}`, product, "DELETE");
+        }   else if (e.target.id === 'edit') {
+                e.preventDefault();
+                const productPut = actualProduct;
+                const titleEdit = document.getElementById('input-titlee');
+                productPut.title = titleEdit.value;
+                const priceEdit = document.getElementById('input-pricee');
+                productPut.price = priceEdit.value;
+                const imageEdit = document.getElementById('input-imagee');
+                productPut.image = imageEdit.value;
+                const sizeEdit = document.getElementById('input-sizee');
+                productPut.size = sizeEdit.value;
+                await fetchData(`http://localhost:8080/api/products/${productPut.id}`, productPut, "PUT");
+                const productDiv = document.querySelectorAll('.productcontainer');
+/*                 const element = document.getElementById(window);
+                console.log(element) */
+                let y = window.pageYOffset;
+                console.log(y)
+                for (const product of productDiv) {
+                    product.remove();
                 }
-            }
-            const allPrice = document.getElementById('allPrice');
-            allPrice.innerText = totalPrice + ' $ USD'
-        } else if (e.target.id === 'buynow'){
+                fetchProducts();
+                window.pageYOffset = y;
+        }  else if (e.target.className === 'addnew') {
             e.preventDefault();
-            const elements = document.querySelectorAll('.pDiv');
-            for (const element of elements) {
-                element.remove();
-            }
-            totalPrice = 0; 
-            const allPrice = document.getElementById('allPrice');
-            allPrice.innerText = totalPrice + ' $ USD'
-            const currentUserString = localStorage.getItem('currentUser');
-            const currentUser = JSON.parse(currentUserString);
-            console.log(currentUser.id);
-            shoppingBasket.user = currentUser.id
-            const response = await postShoppingCart(shoppingBasket);
-            console.log(response);
-            shoppingBasket = {};
-            window.alert(`Thank you for your purchasing, your order is saved in our system, number is: ${response.orderID}`)
-        } else if (e.target.className === 'delete') {
-            e.preventDefault();
-            const productID = e.target.id.split('del')[1];
-            console.log(productID);
-            const toDeleteDiv = document.getElementById(`div`+productID)
-            console.log(`div${productID}`)
-            console.log(toDeleteDiv)
-            toDeleteDiv.remove();
 
-            console.log(shoppingBasket)
-            delete shoppingBasket[productID];
-            for (const key in shoppingBasket) {
-                for (const product of products) {
-                    if (product.id === Number(key)) {
-                        totalPrice += shoppingBasket[key] * product.price;
-                    }
-                }
-            }
-            const allPrice = document.getElementById('allPrice');
-            allPrice.innerText = totalPrice + ' $ USD'
+            console.log('hello')
         }
     })
 }
+
+async function editProduct(e) {
+    const productData = await fetchProducts();
+    console.log(productData);
+ /*    const userName = e.target.closest('.userDiv').id;
+    console.log(userName);
+    const user = usersData.find((userData) => {
+      return ((userData.name.first + userData.name.middle + userData.name.last) === userName);
+    });
+    console.log(user);
+    fillEditForm(user); */
+  }
 
 window.addEventListener('load', loadEvent);

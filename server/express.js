@@ -37,12 +37,27 @@ const getOrdersData = async () => {
     }
 }
 
+const getProductsData = async () => {
+    try{
+        const data = await readFile('./products.json', 'utf-8');
+        const productsData = JSON.parse(data);
+        return productsData.products;
+    }
+    catch(error){
+        console.error('Error reading JSON file:', error.message);
+    }
+}
+
 async function writeUsersData(data) {
     await writeFile('userdata.json', JSON.stringify({users: data}), 'utf-8');
 }
 
 async function writeOrdersData(data) {
     await writeFile('orderdata.json', JSON.stringify({orders: data}), 'utf-8');
+}
+
+async function writeProductsData(data) {
+    await writeFile('products.json', JSON.stringify({products: data}), 'utf-8');
 }
 
 app.get('/api/users', async (req, res)=>{
@@ -191,6 +206,46 @@ app.delete('/api/users/:id', async (req, res) => {
             res.json({ message: 'User deleted successfully' });
         } else {
             res.status(404).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        throw error;
+    }
+});
+
+app.delete('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+
+        const existingProductsData = await getProductsData();
+        const indexToDelete = existingProductsData.findIndex((product) => product.id === productId);
+
+        if (indexToDelete !== -1) {
+            existingProductsData.splice(indexToDelete, 1);
+            console.log(existingProductsData);
+            await writeProductsData(existingProductsData);
+            res.json({ message: 'Product deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        throw error;
+    }
+});
+
+app.put('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        const existingProductsData = await getProductsData();
+        const indexToModify = existingProductsData.findIndex((product) => product.id === productId);
+        if (indexToModify !== -1) {
+            existingProductsData[indexToModify] = req.body;
+            console.log(existingProductsData);
+            await writeProductsData(existingProductsData);
+            res.json({ message: 'Product modified successfully' });
+        } else {
+            res.status(404).json({ error: 'Product not found' });
         }
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
