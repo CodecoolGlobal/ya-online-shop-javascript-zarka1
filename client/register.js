@@ -27,6 +27,13 @@ const postUser = async (user) =>{
     return newUser;
 }
 
+const backToShopButton = () =>{
+    const button = document.getElementById('regbackbutton');
+    button.addEventListener('click', (event)=>{
+        window.location.href = '/';
+    })
+}
+
 const getNewUser = () =>{
     const form = document.getElementById('new-user');
     form.addEventListener('submit', async (event)=>{
@@ -78,6 +85,7 @@ const getNewUser = () =>{
 
 function loadEvent() {
     getNewUser();
+    backToShopButton();
 
 }
 window.addEventListener('load', loadEvent);

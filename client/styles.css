@@ -137,6 +137,11 @@ justify-content: center;
 .producttitle{
     margin: 0;
     margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.producttitle:hover{
+    color: #ff9900;
 }
 
 .productprice{
@@ -257,6 +262,40 @@ padding: 6px 12px;
     font-size: 12px;
 }
 
+#regbackbutton{
+    margin: 15px;
+    cursor: pointer;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, scale 0.3s;
+    user-select: none;
+    width: fit-content;
+}
+
+#homeregbutton{
+    top: 0;
+    position: fixed;
+    margin: 15px;
+    cursor: pointer;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, scale 0.3s;
+    user-select: none;
+    width: fit-content;
+}
+
 #backtoshop{
     margin: 15px;
     cursor: pointer;
@@ -325,4 +364,10 @@ p{
 #usershipping{
     margin-bottom: 6px;
     color: #FFD700;
+}
+
+input{
+    height: 25px;
+    width: 250px;
+    font-size: larger;
 }

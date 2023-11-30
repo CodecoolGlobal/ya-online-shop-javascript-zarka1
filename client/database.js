@@ -27,7 +27,8 @@ const createProductDiv = async (product) =>{
     const productContainerList = document.getElementById('product-list-container')
     const productDiv = createMyElement('div', 'productcontainer', product.id, '', productContainerList);
     createMyElement('h4', 'productid', 'id', `ID: ${product.id}`, productDiv);
-    createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
+    const title = createMyElement ('h2', 'producttitle', 'title', `Title: ${product.title}`, productDiv);
+    title.setAttribute('data-imdb', product.imdbcode);
     createMyElement('p', 'productprice', 'price', `Price: ${product.price}$ USD`, productDiv);
     createMyElement('button', 'buttonProduct', `button${product.id}`, 'Add to basket', productDiv);
     const pictureHTML = `<img src="/pictures/${product.image}"/>`
@@ -146,6 +147,12 @@ async function loadEvent() {
             }
             const allPrice = document.getElementById('allPrice');
             allPrice.innerText = totalPrice + ' $ USD'
+        }
+        else if(e.target.id === 'homeregbutton'){
+            window.location.href = '/register';
+        }
+        else if(e.target.className === 'producttitle'){
+            window.location.href = `https://www.imdb.com/title/${e.target.dataset.imdb}/`;
         }
     })
 }
