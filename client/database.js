@@ -2,7 +2,6 @@ const rootElement = document.getElementById('root');
 let shoppingBasket = {};
 let products = [];
 
-
 function createMyElement(type, elementClass, id, content, parent){
     const element = document.createElement(type);
     parent.appendChild(element);
@@ -11,17 +10,6 @@ function createMyElement(type, elementClass, id, content, parent){
     element.setAttribute('id', id)
     return element;
 }
-
-/* function getUserIdFromUrl() {
-    // Get the current URL
-    const currentUrl = window.location.href;
-
-    // Extract the user ID from the URL
-    const urlParts = currentUrl.split('/');
-    const userIdFromUrl = parseInt(urlParts[urlParts.length - 1]);
-
-    return userIdFromUrl;
-} */
 
 const postShoppingCart = async (shoppingBasket) =>{
     await fetch('/api/orders', {
@@ -33,7 +21,6 @@ const postShoppingCart = async (shoppingBasket) =>{
     });
     return shoppingBasket;
 }
-
 
 const createProductDiv = async (product) =>{
     const productContainerList = document.getElementById('product-list-container')
@@ -95,11 +82,6 @@ async function loadEvent() {
     window.addEventListener("click", async (e)=> {
         let totalPrice = 0;
         console.log(e.target);
-/*         const shoppingCart = document.getElementById('items');
-        const elements = document.querySelectorAll('.pDiv');
-        for (const element of elements) {
-            element.remove();
-        } */
 
         if (e.target.className === 'buttonProduct') {
             const shoppingCart = document.getElementById('items');
@@ -116,8 +98,8 @@ async function loadEvent() {
                     if (product.id === Number(key)) {
                         createMyElement('div', 'pDiv', `div${product.id}`, '',shoppingCart  )
                         const pDiv = document.getElementById(`div${product.id}`);
-                        createMyElement('p', 'pProduct', `p1${product.id}`, product.title, pDiv);
-                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}`, pDiv);
+                        createMyElement('p', 'pProductname', `p1${product.id}`, product.title, pDiv);
+                        createMyElement('p', 'pProduct', `p2${product.id}`, `${shoppingBasket[key]}pcs`, pDiv);
                         const deleteButton = document.getElementById(`del${product.id}`);
                         if (!deleteButton) createMyElement('button', 'delete', `del${product.id}`, 'delete', pDiv);
                         console.log(product.price)
